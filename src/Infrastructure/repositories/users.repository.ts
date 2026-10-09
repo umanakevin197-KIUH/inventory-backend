@@ -1,0 +1,100 @@
+/* AUTO-GENERATED-IMPORTS START */
+        import { injectable, inject } from "tsyringe";
+        import { IUsersRepository } from "../../Domain/repositories/usersRepository.interface";
+        import Users from "../../Domain/entities/users";
+        import { EntityType } from "../utils/entityTypes";
+import { SqlReadOperation, SqlWriteOperation } from "../builders/sqlOperations.enum";
+import { ISqlCommandOperationBuilder } from "../interface/sqlCommandOperation.interface";
+import { ISingletonSqlConnection } from "../interface/dbConnection.interface";
+        /* AUTO-GENERATED-IMPORTS END */
+
+@injectable()
+export class UsersRepository implements IUsersRepository {
+
+  /* AUTO-GENERATED-PROPERTIES START */
+        private readonly _operationBuilder: ISqlCommandOperationBuilder;
+private readonly _connection: ISingletonSqlConnection;
+        /* AUTO-GENERATED-PROPERTIES END */
+
+  /* AUTO-GENERATED-CONSTRUCTOR START */
+        constructor(
+  @inject("IOperationBuilder") operationBuilder: ISqlCommandOperationBuilder,
+  @inject("ISingletonSqlConnection") connection: ISingletonSqlConnection
+) {
+  this._operationBuilder = operationBuilder;
+  this._connection = connection;
+}
+        /* AUTO-GENERATED-CONSTRUCTOR END */
+
+  /* AUTO-GENERATED-METHODS START */
+        async findAll(page: number = 1, pageSize: number = 100): Promise<Users[]> {
+  const offset = (page - 1) * pageSize;
+
+  const readCommand = this._operationBuilder
+    .Initialize(EntityType.Users)
+    .WithOperation(SqlReadOperation.Select)
+    .WithPagination(pageSize, offset)
+    .BuildReader();
+
+  const rows = await this._connection.executeQuery(readCommand);
+  return rows.map(
+  (row) =>
+    ({
+      id: row["ID"],
+      name: row["NAME"],
+email: row["EMAIL"],
+password: row["PASSWORD"],
+role: row["ROLE"],
+created_at: row["CREATED_AT"],
+    } as Users)
+);
+}
+
+async findById(id: string): Promise<Users | null> {
+  const readCommand = this._operationBuilder
+    .Initialize(EntityType.Users)
+    .WithOperation(SqlReadOperation.SelectById)
+    .WithId(id)
+    .BuildReader();
+
+  const row = await this._connection.executeScalar(readCommand);
+  if (!row) return null;
+
+  return {
+  id: row["ID"],
+      name: row["NAME"],
+email: row["EMAIL"],
+password: row["PASSWORD"],
+role: row["ROLE"],
+created_at: row["CREATED_AT"],
+  } as Users;
+}
+
+async create(entity: Users): Promise<void> {
+  const writeCommand = this._operationBuilder
+    .From(EntityType.Users, entity)
+    .WithOperation(SqlWriteOperation.Create)
+    .BuildWritter();
+
+  await this._connection.executeNonQuery(writeCommand);
+}
+
+async update(entity: Users): Promise<void> {
+  const writeCommand = this._operationBuilder
+    .From(EntityType.Users, entity)
+    .WithOperation(SqlWriteOperation.Update)
+    .BuildWritter();
+
+  await this._connection.executeNonQuery(writeCommand);
+}
+
+async delete(entity: Users): Promise<void> {
+  const writeCommand = this._operationBuilder
+    .From(EntityType.Users, entity)
+    .WithOperation(SqlWriteOperation.Delete)
+    .BuildWritter();
+
+  await this._connection.executeNonQuery(writeCommand);
+}
+        /* AUTO-GENERATED-METHODS END */
+}

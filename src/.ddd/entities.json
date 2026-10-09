@@ -1,0 +1,200 @@
+{
+  "models": [
+    {
+      "name": "Categories",
+      "fields": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp"
+        }
+      ]
+    },
+    {
+      "name": "Subcategories",
+      "fields": [
+        {
+          "name": "category_id",
+          "type": "integer"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp"
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "fields": [
+        {
+          "name": "category_id",
+          "type": "integer"
+        },
+        {
+          "name": "subcategory_id",
+          "type": "integer"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "description",
+          "type": "text"
+        },
+        {
+          "name": "product_type",
+          "type": "string"
+        },
+        {
+          "name": "status",
+          "type": "boolean"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp"
+        }
+      ]
+    },
+    {
+      "name": "Product_variants",
+      "fields": [
+        {
+          "name": "product_id",
+          "type": "integer"
+        },
+        {
+          "name": "sku",
+          "type": "string"
+        },
+        {
+          "name": "size",
+          "type": "string"
+        },
+        {
+          "name": "color",
+          "type": "string"
+        },
+        {
+          "name": "brand",
+          "type": "string"
+        },
+        {
+          "name": "stock",
+          "type": "integer"
+        },
+        {
+          "name": "price",
+          "type": "decimal"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp"
+        }
+      ]
+    },
+    {
+      "name": "Inventory-movements",
+      "fields": [
+        {
+          "name": "product_id",
+          "type": "integer"
+        },
+        {
+          "name": "movement_type",
+          "type": "string"
+        },
+        {
+          "name": "quantity",
+          "type": "integer"
+        },
+        {
+          "name": "reason",
+          "type": "string"
+        },
+        {
+          "name": "created_by",
+          "type": "integer"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp"
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "fields": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "email",
+          "type": "string"
+        },
+        {
+          "name": "password",
+          "type": "string"
+        },
+        {
+          "name": "role",
+          "type": "string"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp"
+        }
+      ]
+    },
+    {
+      "name": "inventory_movements",
+      "fields": [
+        {
+          "name": "product_id",
+          "type": "number"
+        },
+        {
+          "name": "movement_type",
+          "type": "string"
+        },
+        {
+          "name": "quantity",
+          "type": "number"
+        },
+        {
+          "name": "previous_stock",
+          "type": "number"
+        },
+        {
+          "name": "new_stock",
+          "type": "number"
+        },
+        {
+          "name": "reason",
+          "type": "string"
+        },
+        {
+          "name": "created_by",
+          "type": "number"
+        },
+        {
+          "name": "created_at",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "databaseProvider": "turso"
+}

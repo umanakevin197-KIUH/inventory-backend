@@ -31,7 +31,7 @@ app.use(cors({
         "http://localhost:3000",
         process.env.FRONTEND_URL || "",
         /\.vercel\.app$/,
-        /\.railway\.app$/,
+        /\.onrender\.com$/,
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],

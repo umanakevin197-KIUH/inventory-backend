@@ -9,11 +9,6 @@ import { UsersRepository } from "./../../Infrastructure/repositories/users.repos
 import { IUsersService } from "./../../Application/interfaces/users.service.interface";
 import { UsersService } from "./../../Application/services/users.service";
 import { UsersController } from "./../controllers/users.controller";
-import { IProduct_variantsRepository } from "./../../Domain/repositories/product_variantsRepository.interface";
-import { Product_variantsRepository } from "./../../Infrastructure/repositories/product_variants.repository";
-import { IProduct_variantsService } from "./../../Application/interfaces/product_variants.service.interface";
-import { Product_variantsService } from "./../../Application/services/product_variants.service";
-import { Product_variantsController } from "./../controllers/product_variants.controller";
 import { IProductsRepository } from "./../../Domain/repositories/productsRepository.interface";
 import { ProductsRepository } from "./../../Infrastructure/repositories/products.repository";
 import { IProductsService } from "./../../Application/interfaces/products.service.interface";
@@ -70,7 +65,7 @@ import { PayrollRepository } from '../../Infrastructure/repositories/payroll.rep
 import { IIntelligenceService } from '../../Application/interfaces/intelligence.service.interface';
 import { IntelligenceService } from '../../Application/services/intelligence.service';
 
-//builder, database connection and entity service
+// Builder, database connection and entity service
 container.registerSingleton<ISingletonSqlConnection>('ISingletonSqlConnection', SingletonSqlConnection);
 container.register<ISqlCommandOperationBuilder>('IOperationBuilder', { useClass: SqlCommandOperationBuilder });
 container.registerSingleton<IEntitiesService>('IEntityService', EntitiesService);
@@ -78,16 +73,14 @@ container.registerSingleton<IEntitiesService>('IEntityService', EntitiesService)
 // AUTO-GENERATED MODULE REGISTRATIONS
 // inventory_movements
 container.register<Iinventory_movementsRepository>("Iinventory_movementsRepository", { useClass: inventory_movementsRepository });
-container.register("Iinventory_movementsService", { useClass: inventory_movementsService  });
+container.register("Iinventory_movementsService", { useClass: inventory_movementsService });
 container.register<inventory_movementsController>("inventory_movementsController", { useClass: inventory_movementsController });
+
 // Users
 container.register<IUsersRepository>("IUsersRepository", { useClass: UsersRepository });
 container.register<IUsersService>("IUsersService", { useClass: UsersService });
 container.register<UsersController>("UsersController", { useClass: UsersController });
-// Product_variants
-container.register<IProduct_variantsRepository>("IProduct_variantsRepository", { useClass: Product_variantsRepository });
-container.register<IProduct_variantsService>("IProduct_variantsService", { useClass: Product_variantsService });
-container.register<Product_variantsController>("Product_variantsController", { useClass: Product_variantsController });
+
 // Products
 container.register<IProductsRepository>("IProductsRepository", { useClass: ProductsRepository });
 container.register<IProductsService>("IProductsService", { useClass: ProductsService });
@@ -97,37 +90,24 @@ container.register<ProductsController>("ProductsController", { useClass: Product
 container.register<ISubcategoriesRepository>("ISubcategoriesRepository", { useClass: SubcategoriesRepository });
 container.register<ISubcategoriesService>("ISubcategoriesService", { useClass: SubcategoriesService });
 container.register<SubcategoriesController>("SubcategoriesController", { useClass: SubcategoriesController });
+
 // Categories
 container.register<ICategoriesRepository>("ICategoriesRepository", { useClass: CategoriesRepository });
 container.register<ICategoriesService>("ICategoriesService", { useClass: CategoriesService });
 container.register<CategoriesController>("CategoriesController", { useClass: CategoriesController });
 
-//Auth
+// Auth
 container.register<IAuthService>("IAuthService", AuthService);
-container.register<IPredictiveService>(
-    'IPredictiveService',
-    { useClass: PredictiveService }
-);
+container.register<IPredictiveService>('IPredictiveService', { useClass: PredictiveService });
 
 // Proveedores
-container.register<ISuppliersRepository>(
-    'ISuppliersRepository', 
-    { useClass: SuppliersRepository }
-);
-container.register<ISuppliersService>(
-    'ISuppliersService', 
-    { useClass: SuppliersService }
-);
+container.register<ISuppliersRepository>('ISuppliersRepository', { useClass: SuppliersRepository });
+container.register<ISuppliersService>('ISuppliersService', { useClass: SuppliersService });
 
 // Compras
-container.register<IPurchasesRepository>(
-    'IPurchasesRepository', 
-    { useClass: PurchasesRepository }
-);
-container.register<IPurchasesService>(
-    'IPurchasesService', 
-    { useClass: PurchasesService }
-);
+container.register<IPurchasesRepository>('IPurchasesRepository', { useClass: PurchasesRepository });
+container.register<IPurchasesService>('IPurchasesService', { useClass: PurchasesService });
+
 // Clientes
 container.register<ICustomersRepository>('ICustomersRepository', { useClass: CustomersRepository });
 container.register<ICustomersService>('ICustomersService', { useClass: CustomersService });
@@ -150,4 +130,5 @@ container.register<IPayrollService>('IPayrollService', { useClass: PayrollServic
 
 // Inteligencia de Negocios
 container.register<IIntelligenceService>('IIntelligenceService', { useClass: IntelligenceService });
+
 export { container };

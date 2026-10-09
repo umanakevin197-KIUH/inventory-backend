@@ -1,20 +1,17 @@
 import "reflect-metadata";
 import cors from "cors";
-//AUTO-IMPORT-DOTENV
 import "dotenv/config";
 import express from "express";
 import { initializeDatabase } from "./Infrastructure/database/initializeDatabase";
-//AUTO-IMPORT-CONTAINER
 import "./WebApi/container/dependencyContainer";
-//AUTO-IMPORT-ROUTES
+
+// ROUTES
 import inventory_movementsRoutes from "./WebApi/routes/inventory_movements.routes";
 import usersRoutes from "./WebApi/routes/users.routes";
-import product_variantsRoutes from "./WebApi/routes/product_variants.routes";
 import productsRoutes from "./WebApi/routes/products.routes";
 import subcategoriesRoutes from "./WebApi/routes/subcategories.routes";
 import categoriesRoutes from "./WebApi/routes/categories.routes";
 import authRoutes from "./WebApi/routes/auth.routes";
-//AUTO-IMPORT-OPENAPI
 import { apiReference } from "@scalar/express-api-reference";
 import { OpenApiSpecification } from "./WebApi/docs/openapi";
 import predictiveRoutes from './WebApi/routes/predictive.routes';
@@ -45,17 +42,17 @@ const PORT = process.env.PORT || 3000;
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-//AUTO-REGISTER-OPENAPI
+// OPENAPI
 app.use(
-	"/api-docs",
-	apiReference({
-	content: OpenApiSpecification,
-	})
+    "/api-docs",
+    apiReference({
+        content: OpenApiSpecification,
+    })
 );
-//AUTO-REGISTER-ROUTES
+
+// ROUTES
 app.use("/api/inventory_movements", inventory_movementsRoutes);
 app.use("/api/users", usersRoutes);
-app.use("/api/product_variants", product_variantsRoutes);
 app.use("/api/products", productsRoutes);
 app.use("/api/suppliers", suppliersRoutes);
 app.use("/api/subcategories", subcategoriesRoutes);
@@ -71,27 +68,27 @@ app.use("/api/payroll", payrollRoutes);
 app.use("/api/intelligence", intelligenceRoutes);
 
 async function startServer() {
-  await initializeDatabase();
+    await initializeDatabase();
 
-  app.listen(PORT, () => {
-    console.log("");
-    console.log("╔═══════════════════════════════════════════════════════╗");
-    console.log("║                                                       ║");
-    console.log("║       ⚡  INVENTORYX - SISTEMA DE GESTIÓN ⚡         ║");
-    console.log("║                                                       ║");
-    console.log("║       Sistema Inteligente de Gestión Comercial       ║");
-    console.log("║              con Inteligencia de Negocios            ║");
-    console.log("║                                                       ║");
-    console.log("╚═══════════════════════════════════════════════════════╝");
-    console.log("");
-    console.log(`  🚀 Servidor:       http://localhost:${PORT}`);
-    console.log(`  📚 API Docs:       http://localhost:${PORT}/api-docs`);
-    console.log(`  🔗 API Base:       http://localhost:${PORT}/api`);
-    console.log(`  🌐 Entorno:        ${process.env.NODE_ENV || "development"}`);
-    console.log("");
-    console.log("  ✅ Sistema listo para usar");
-    console.log("");
-});
+    app.listen(PORT, () => {
+        console.log("");
+        console.log("╔═══════════════════════════════════════════════════════╗");
+        console.log("║                                                       ║");
+        console.log("║       ⚡  INVENTORYX - SISTEMA DE GESTIÓN ⚡          ║");
+        console.log("║                                                       ║");
+        console.log("║       Sistema Inteligente de Gestión Comercial       ║");
+        console.log("║              con Inteligencia de Negocios            ║");
+        console.log("║                                                       ║");
+        console.log("╚═══════════════════════════════════════════════════════╝");
+        console.log("");
+        console.log(`  🚀 Servidor:       http://localhost:${PORT}`);
+        console.log(`  📚 API Docs:       http://localhost:${PORT}/api-docs`);
+        console.log(`  🔗 API Base:       http://localhost:${PORT}/api`);
+        console.log(`  🌐 Entorno:        ${process.env.NODE_ENV || "development"}`);
+        console.log("");
+        console.log("  ✅ Sistema listo para usar");
+        console.log("");
+    });
 }
 
 startServer();

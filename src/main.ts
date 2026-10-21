@@ -23,6 +23,8 @@ import invoicesRoutes from "./WebApi/routes/invoices.routes";
 import employeesRoutes from "./WebApi/routes/employees.routes";
 import payrollRoutes from "./WebApi/routes/payroll.routes";
 import intelligenceRoutes from "./WebApi/routes/intelligence.routes";
+import creditPaymentsRoutes from "./WebApi/routes/credit_payments.routes";
+import { startEmailScheduler } from "./shared/utils/emailScheduler";
 
 const app = express();
 app.use(cors({
@@ -41,6 +43,15 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+// ✅ Desactivar caché HTTP en TODAS las respuestas del API
+app.use((req, res, next) => {
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
+    res.setHeader("Surrogate-Control", "no-store");
+    next();
+});
 
 // OPENAPI
 app.use(
@@ -66,9 +77,12 @@ app.use("/api/invoices", invoicesRoutes);
 app.use("/api/employees", employeesRoutes);
 app.use("/api/payroll", payrollRoutes);
 app.use("/api/intelligence", intelligenceRoutes);
+app.use("/api/credit_payments", creditPaymentsRoutes);
 
 async function startServer() {
     await initializeDatabase();
+
+     startEmailScheduler();
 
     app.listen(PORT, () => {
         console.log("");
@@ -90,5 +104,6 @@ async function startServer() {
         console.log("");
     });
 }
+
 
 startServer();

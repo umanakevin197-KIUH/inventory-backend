@@ -64,6 +64,10 @@ import { IPayrollRepository } from '../../Domain/repositories/payrollRepository.
 import { PayrollRepository } from '../../Infrastructure/repositories/payroll.repository';
 import { IIntelligenceService } from '../../Application/interfaces/intelligence.service.interface';
 import { IntelligenceService } from '../../Application/services/intelligence.service';
+import { ICreditPaymentsService } from '../../Application/interfaces/credit_payments.service.interface';
+import { CreditPaymentsService } from '../../Application/services/credit_payments.service';
+import { ICreditPaymentsRepository } from '../../Domain/repositories/credit_paymentsRepository.interface';
+import { CreditPaymentsRepository } from '../../Infrastructure/repositories/credit_payments.repository';
 
 // Builder, database connection and entity service
 container.registerSingleton<ISingletonSqlConnection>('ISingletonSqlConnection', SingletonSqlConnection);
@@ -130,5 +134,9 @@ container.register<IPayrollService>('IPayrollService', { useClass: PayrollServic
 
 // Inteligencia de Negocios
 container.register<IIntelligenceService>('IIntelligenceService', { useClass: IntelligenceService });
+
+// Abonos / Créditos
+container.register<ICreditPaymentsRepository>('ICreditPaymentsRepository', { useClass: CreditPaymentsRepository });
+container.register<ICreditPaymentsService>('ICreditPaymentsService', { useClass: CreditPaymentsService });
 
 export { container };

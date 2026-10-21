@@ -9,4 +9,7 @@ export interface ISalesService {
     create(data: SalesDto): Promise<Sales>;
     registerPayment(id: string): Promise<Sales | null>;
     delete(id: string): Promise<void>;
+    getPendingSales(): Promise<any[]>;
+    cancelReservation(saleId: string, userId: string): Promise<any>;
+    updatePaymentDate(saleId: string, newDate: string): Promise<{ message: string }>;
 }

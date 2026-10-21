@@ -9,4 +9,5 @@ export interface ISalesRepository {
     create(data: Sales, items: SaleItem[]): Promise<Sales>;
     registerPayment(id: string): Promise<void>;
     delete(id: string): Promise<void>;
+    updateNextPaymentDate(saleId: string, newDate: string): Promise<void>;
 }

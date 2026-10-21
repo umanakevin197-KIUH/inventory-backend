@@ -79,4 +79,44 @@ export class SalesController {
             res.status(500).json({ error: "Error al eliminar venta" });
         }
     };
+
+        async getPendingSales(req: Request, res: Response) {
+        try {
+            const sales = await this.service.getPendingSales();
+            res.json(sales);
+        } catch (error: any) {
+            console.error("Error al obtener ventas pendientes:", error);
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    async cancelReservation(req: Request, res: Response) {
+        try {
+            const saleId = String(req.params.id);
+            const userId = (req as any).user?.id || (req as any).userId || "system";
+
+            const result = await this.service.cancelReservation(saleId, userId);
+            res.json(result);
+        } catch (error: any) {
+            console.error("Error al cancelar apartado:", error);
+            res.status(400).json({ error: error.message });
+        }
+    }
+
+        async updatePaymentDate(req: Request, res: Response) {
+        try {
+            const saleId = String(req.params.id);
+            const { new_date } = req.body;
+
+            if (!new_date) {
+                return res.status(400).json({ error: "Debe enviar la nueva fecha" });
+            }
+
+            const result = await this.service.updatePaymentDate(saleId, new_date);
+            res.json(result);
+        } catch (error: unknown) {
+            const err = error as Error;
+            res.status(400).json({ error: err.message });
+        }
+    }
 }

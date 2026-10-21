@@ -65,17 +65,15 @@ export class CreditPaymentsService implements ICreditPaymentsService {
             deliveryStatus = "ENTREGADO";
         }
 
-           // ✅ LÓGICA AUTOMÁTICA DE NUEVA FECHA
-        let nextPaymentDate = sale.next_payment_date;
+                   // ✅ Calcular la nueva fecha automáticamente si no ha terminado de pagar
+        let nextDate = sale.next_payment_date;
         
-        // Si no ha terminado de pagar, calculamos la próxima fecha sumando 15 días (puedes cambiar el 15)
-        if (!isComplete) {
-            const newDate = new Date();
-            newDate.setDate(newDate.getDate() + 15); // Por defecto sumamos 15 días
-            nextPaymentDate = newDate.toISOString().split("T")[0]; // Formato YYYY-MM-DD
+        if (newBalance > 0) {
+            const baseDate = new Date();
+            baseDate.setDate(baseDate.getDate() + 15); // Sumamos 15 días por defecto
+            nextDate = baseDate.toISOString().split("T")[0];
         } else {
-            // Si ya terminó de pagar, limpiamos la fecha
-            nextPaymentDate = null; 
+            nextDate = null; // Si el saldo es 0, se borra la fecha
         }
 
         await executeWithRetry(
@@ -83,13 +81,15 @@ export class CreditPaymentsService implements ICreditPaymentsService {
                 total_paid = ?,
                 balance_due = ?,
                 payment_status = ?,
-                delivery_status = ?
+                delivery_status = ?,
+                next_payment_date = ?
              WHERE id = ?`,
             [
                 newPaid,
                 newBalance,
                 isComplete ? "PAGADO" : "PENDIENTE",
                 deliveryStatus,
+                nextDate,
                 data.sale_id,
             ]
         );

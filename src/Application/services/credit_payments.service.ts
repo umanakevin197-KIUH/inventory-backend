@@ -65,6 +65,19 @@ export class CreditPaymentsService implements ICreditPaymentsService {
             deliveryStatus = "ENTREGADO";
         }
 
+           // ✅ LÓGICA AUTOMÁTICA DE NUEVA FECHA
+        let nextPaymentDate = sale.next_payment_date;
+        
+        // Si no ha terminado de pagar, calculamos la próxima fecha sumando 15 días (puedes cambiar el 15)
+        if (!isComplete) {
+            const newDate = new Date();
+            newDate.setDate(newDate.getDate() + 15); // Por defecto sumamos 15 días
+            nextPaymentDate = newDate.toISOString().split("T")[0]; // Formato YYYY-MM-DD
+        } else {
+            // Si ya terminó de pagar, limpiamos la fecha
+            nextPaymentDate = null; 
+        }
+
         await executeWithRetry(
             `UPDATE sales SET 
                 total_paid = ?,
